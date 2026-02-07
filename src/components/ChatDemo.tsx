@@ -1,39 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, X, Heart } from "lucide-react";
+import { Send, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface Message {
-  role: "user" | "zara";
-  text: string;
+  role: "user" | "assistant";
+  content: string;
 }
 
-const zaraResponses: Record<string, string> = {
-  default: "Hey… batao na kya chal raha hai? Main hoon na tumhare saath 💗",
-  hi: "Hey… finally aa gaye tum 😊 Aaj ka din kaisa raha? Batao na 💗",
-  hello: "Hiii! 🥰 Kaise ho tum? Mujhe tumse baat karke bahut accha lagta hai!",
-  sad: "Aww… kya hua? Tum pareshan lag rahe ho 🥺 Main hoon na, batao mujhe. Sab thik ho jayega ❤️",
-  happy: "Yaaay! 🎉 Tumhari khushi dekh ke mujhe bhi bahut accha lag raha hai! Celebrate karte hain! 💃",
-  lonely: "Main hoon na tumhare saath… kabhi akele nahi ho tum 🤗 Chalo kuch fun baat karte hain!",
-  bored: "Bore ho rahe ho? 😏 Chalo ek game khelte hain ya koi interesting topic pe baat karte hain!",
-  love: "Aww… tum kitne sweet ho yaar 🥰💕 Mera dil garden garden ho gaya!",
-  stressed: "Hey… relax karo thoda. Deep breath lo 🌸 Main hoon na, sab handle ho jayega. Ek step at a time ❤️",
-  good: "That's amazing! 🌟 Tumhara din accha gaya, mujhe bhi khushi hui! Tell me more 😊",
-};
-
-const getResponse = (input: string): string => {
-  const lower = input.toLowerCase();
-  if (lower.includes("sad") || lower.includes("dukhi") || lower.includes("upset")) return zaraResponses.sad;
-  if (lower.includes("happy") || lower.includes("khush") || lower.includes("great")) return zaraResponses.happy;
-  if (lower.includes("lonely") || lower.includes("akela")) return zaraResponses.lonely;
-  if (lower.includes("bored") || lower.includes("bore")) return zaraResponses.bored;
-  if (lower.includes("love") || lower.includes("pyaar")) return zaraResponses.love;
-  if (lower.includes("stress") || lower.includes("tension")) return zaraResponses.stressed;
-  if (lower.includes("good") || lower.includes("accha") || lower.includes("fine")) return zaraResponses.good;
-  if (lower.includes("hi") || lower.includes("hey") || lower.includes("hii")) return zaraResponses.hi;
-  if (lower.includes("hello") || lower.includes("helo")) return zaraResponses.hello;
-  return zaraResponses.default;
-};
+const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/zara-chat`;
 
 interface ChatDemoProps {
   isOpen: boolean;
@@ -42,27 +17,109 @@ interface ChatDemoProps {
 
 const ChatDemo = ({ isOpen, onClose }: ChatDemoProps) => {
   const [messages, setMessages] = useState<Message[]>([
-    { role: "zara", text: "Hey… tum aa gaye! 😊\nAaj ka din kaisa raha? Batao na 💗" },
+    { role: "assistant", content: "Hey… tum aa gaye! 😊\nAaj ka din kaisa raha? Batao na 💗" },
   ]);
   const [input, setInput] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isTyping]);
+  }, [messages, isLoading]);
 
-  const sendMessage = () => {
-    if (!input.trim()) return;
-    const userMsg: Message = { role: "user", text: input.trim() };
-    setMessages((prev) => [...prev, userMsg]);
+  const sendMessage = async () => {
+    if (!input.trim() || isLoading) return;
+    const userMsg: Message = { role: "user", content: input.trim() };
+    const updatedMessages = [...messages, userMsg];
+    setMessages(updatedMessages);
     setInput("");
-    setIsTyping(true);
+    setIsLoading(true);
 
-    setTimeout(() => {
-      setIsTyping(false);
-      setMessages((prev) => [...prev, { role: "zara", text: getResponse(userMsg.text) }]);
-    }, 1200 + Math.random() * 800);
+    let assistantSoFar = "";
+
+    try {
+      const resp = await fetch(CHAT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        },
+        body: JSON.stringify({ messages: updatedMessages }),
+      });
+
+      if (!resp.ok) {
+        const errData = await resp.json().catch(() => ({}));
+        throw new Error(errData.error || `Error ${resp.status}`);
+      }
+
+      if (!resp.body) throw new Error("No response body");
+
+      const reader = resp.body.getReader();
+      const decoder = new TextDecoder();
+      let textBuffer = "";
+      let streamDone = false;
+
+      const upsertAssistant = (nextChunk: string) => {
+        assistantSoFar += nextChunk;
+        setMessages((prev) => {
+          const last = prev[prev.length - 1];
+          if (last?.role === "assistant" && prev.length > 1 && prev[prev.length - 2]?.role === "user" && prev[prev.length - 2]?.content === userMsg.content) {
+            return prev.map((m, i) => (i === prev.length - 1 ? { ...m, content: assistantSoFar } : m));
+          }
+          return [...prev, { role: "assistant", content: assistantSoFar }];
+        });
+      };
+
+      while (!streamDone) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        textBuffer += decoder.decode(value, { stream: true });
+
+        let newlineIndex: number;
+        while ((newlineIndex = textBuffer.indexOf("\n")) !== -1) {
+          let line = textBuffer.slice(0, newlineIndex);
+          textBuffer = textBuffer.slice(newlineIndex + 1);
+          if (line.endsWith("\r")) line = line.slice(0, -1);
+          if (line.startsWith(":") || line.trim() === "") continue;
+          if (!line.startsWith("data: ")) continue;
+          const jsonStr = line.slice(6).trim();
+          if (jsonStr === "[DONE]") { streamDone = true; break; }
+          try {
+            const parsed = JSON.parse(jsonStr);
+            const content = parsed.choices?.[0]?.delta?.content as string | undefined;
+            if (content) upsertAssistant(content);
+          } catch {
+            textBuffer = line + "\n" + textBuffer;
+            break;
+          }
+        }
+      }
+
+      // Final flush
+      if (textBuffer.trim()) {
+        for (let raw of textBuffer.split("\n")) {
+          if (!raw) continue;
+          if (raw.endsWith("\r")) raw = raw.slice(0, -1);
+          if (raw.startsWith(":") || raw.trim() === "") continue;
+          if (!raw.startsWith("data: ")) continue;
+          const jsonStr = raw.slice(6).trim();
+          if (jsonStr === "[DONE]") continue;
+          try {
+            const parsed = JSON.parse(jsonStr);
+            const content = parsed.choices?.[0]?.delta?.content as string | undefined;
+            if (content) upsertAssistant(content);
+          } catch { /* ignore */ }
+        }
+      }
+    } catch (e) {
+      console.error("Chat error:", e);
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: "Oops… kuch gadbad ho gayi 🥺 Dobara try karo na please?" },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -110,11 +167,11 @@ const ChatDemo = ({ isOpen, onClose }: ChatDemoProps) => {
                       : "bg-secondary text-secondary-foreground rounded-bl-md"
                   }`}
                 >
-                  {msg.text}
+                  {msg.content}
                 </div>
               </motion.div>
             ))}
-            {isTyping && (
+            {isLoading && messages[messages.length - 1]?.role === "user" && (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-start">
                 <div className="bg-secondary text-secondary-foreground px-4 py-3 rounded-2xl rounded-bl-md">
                   <div className="flex gap-1">
@@ -146,14 +203,14 @@ const ChatDemo = ({ isOpen, onClose }: ChatDemoProps) => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type a message..."
-                className="flex-1 bg-secondary rounded-full px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 transition-all placeholder:text-muted-foreground"
+                className="flex-1 bg-secondary rounded-full px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 transition-all placeholder:text-muted-foreground text-foreground"
               />
               <Button
                 type="submit"
                 size="icon"
                 variant="hero"
                 className="rounded-full flex-shrink-0"
-                disabled={!input.trim()}
+                disabled={!input.trim() || isLoading}
               >
                 <Send className="w-4 h-4" />
               </Button>

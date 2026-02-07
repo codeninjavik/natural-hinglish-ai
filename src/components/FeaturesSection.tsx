@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { MessageCircle, Heart, Headphones, Brain, Moon, Sparkles } from "lucide-react";
+import { useRef } from "react";
 
 const features = [
   { icon: MessageCircle, title: "Natural Conversations", desc: "Talks like a real human in Hinglish & English" },
@@ -11,8 +12,12 @@ const features = [
 ];
 
 const FeaturesSection = () => {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [60, -60]);
+
   return (
-    <section id="features" className="py-24 bg-secondary/30">
+    <section id="features" ref={ref} className="py-24 bg-secondary/30 overflow-hidden">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -28,14 +33,15 @@ const FeaturesSection = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <motion.div style={{ y }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {features.map((f, i) => (
             <motion.div
               key={f.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              whileHover={{ y: -5, transition: { duration: 0.2 } }}
               className="group bg-card rounded-2xl p-6 border border-border hover:border-primary/30 hover:shadow-[var(--shadow-soft)] transition-all duration-300"
             >
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
@@ -45,7 +51,7 @@ const FeaturesSection = () => {
               <p className="text-muted-foreground text-sm">{f.desc}</p>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
