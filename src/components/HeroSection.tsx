@@ -1,6 +1,7 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Heart, MessageCircle, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useRef } from "react";
 import heroBg from "@/assets/hero-bg.jpg";
 
 interface HeroSectionProps {
@@ -8,15 +9,21 @@ interface HeroSectionProps {
 }
 
 const HeroSection = ({ onStartChat }: HeroSectionProps) => {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0">
+    <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Parallax Background */}
+      <motion.div className="absolute inset-0" style={{ y: bgY }}>
         <img src={heroBg} alt="" className="w-full h-full object-cover opacity-40" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/30 to-background" />
-      </div>
+      </motion.div>
 
-      <div className="relative z-10 container mx-auto px-6 text-center">
+      <motion.div className="relative z-10 container mx-auto px-6 text-center" style={{ y: textY, opacity }}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -68,18 +75,18 @@ const HeroSection = ({ onStartChat }: HeroSectionProps) => {
         <motion.div
           animate={{ y: [-10, 10, -10] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/4 left-[15%] text-primary/30 text-4xl"
+          className="absolute top-1/4 left-[15%] text-4xl"
         >
           💗
         </motion.div>
         <motion.div
           animate={{ y: [10, -10, 10] }}
           transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/3 right-[15%] text-primary/20 text-3xl"
+          className="absolute top-1/3 right-[15%] text-3xl"
         >
           ✨
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 };

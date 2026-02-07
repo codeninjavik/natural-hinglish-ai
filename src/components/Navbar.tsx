@@ -1,5 +1,6 @@
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import ThemeToggle from "@/components/ThemeToggle";
 
 interface NavbarProps {
   onStartChat: () => void;
@@ -19,9 +20,12 @@ const Navbar = ({ onStartChat }: NavbarProps) => {
           <a href="#pricing" className="hover:text-foreground transition-colors">Pricing</a>
         </div>
 
-        <Button variant="hero" size="sm" className="rounded-full" onClick={onStartChat}>
-          Chat Now
-        </Button>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <Button variant="hero" size="sm" className="rounded-full" onClick={onStartChat}>
+            Chat Now
+          </Button>
+        </div>
       </div>
     </nav>
   );

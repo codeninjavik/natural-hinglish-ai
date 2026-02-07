@@ -12,7 +12,7 @@ const Index = () => {
   const [chatOpen, setChatOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background scroll-smooth">
       <Navbar onStartChat={() => setChatOpen(true)} />
       <HeroSection onStartChat={() => setChatOpen(true)} />
       <FeaturesSection />
