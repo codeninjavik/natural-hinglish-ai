@@ -1,12 +1,42 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { MessageCircle } from "lucide-react";
+import Navbar from "@/components/Navbar";
+import HeroSection from "@/components/HeroSection";
+import FeaturesSection from "@/components/FeaturesSection";
+import PricingSection from "@/components/PricingSection";
+import ChatDemo from "@/components/ChatDemo";
+import Footer from "@/components/Footer";
 
 const Index = () => {
+  const [chatOpen, setChatOpen] = useState(false);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <Navbar onStartChat={() => setChatOpen(true)} />
+      <HeroSection onStartChat={() => setChatOpen(true)} />
+      <FeaturesSection />
+      <PricingSection />
+      <Footer />
+
+      {/* Chat Demo */}
+      <ChatDemo isOpen={chatOpen} onClose={() => setChatOpen(false)} />
+
+      {/* Floating Chat Button */}
+      <AnimatePresence>
+        {!chatOpen && (
+          <motion.button
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+            whileHover={{ scale: 1.1 }}
+            onClick={() => setChatOpen(true)}
+            className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center shadow-lg animate-pulse-glow"
+          >
+            <MessageCircle className="w-6 h-6 text-primary-foreground" />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
