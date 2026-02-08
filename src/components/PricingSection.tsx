@@ -30,7 +30,7 @@ const PricingSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Get <span className="text-primary">ZARA</span> Today
+            Get <span className="text-primary font-logo tracking-[0.15em]">ZARA</span> Today
           </h2>
           <p className="text-muted-foreground text-lg">Choose your perfect plan</p>
         </motion.div>
