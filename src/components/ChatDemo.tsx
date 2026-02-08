@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, X } from "lucide-react";
+import { Send, X, Mic, MicOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useVoiceInput } from "@/hooks/useVoiceInput";
 
 interface Message {
   role: "user" | "assistant";
@@ -22,6 +23,12 @@ const ChatDemo = ({ isOpen, onClose }: ChatDemoProps) => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  const handleVoiceResult = useCallback((text: string) => {
+    setInput(text);
+  }, []);
+
+  const { isListening, isSupported, startListening, stopListening } = useVoiceInput(handleVoiceResult);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -202,9 +209,21 @@ const ChatDemo = ({ isOpen, onClose }: ChatDemoProps) => {
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Type a message..."
+                placeholder={isListening ? "Listening... 🎤" : "Type a message..."}
                 className="flex-1 bg-secondary rounded-full px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 transition-all placeholder:text-muted-foreground text-foreground"
               />
+              {isSupported && (
+                <Button
+                  type="button"
+                  size="icon"
+                  variant={isListening ? "destructive" : "ghost"}
+                  className="rounded-full flex-shrink-0"
+                  onClick={isListening ? stopListening : startListening}
+                  disabled={isLoading}
+                >
+                  {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                </Button>
+              )}
               <Button
                 type="submit"
                 size="icon"
