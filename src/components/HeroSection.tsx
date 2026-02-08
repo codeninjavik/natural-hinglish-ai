@@ -44,7 +44,7 @@ const HeroSection = ({ onStartChat }: HeroSectionProps) => {
           {/* Headline */}
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
             Meet{" "}
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <span className="font-logo tracking-[0.15em] bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               ZARA
             </span>
           </h1>
