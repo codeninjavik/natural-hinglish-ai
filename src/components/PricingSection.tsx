@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, Smartphone } from "lucide-react";
+import { Check, Smartphone, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const plan = {
   icon: Smartphone,
@@ -20,6 +23,50 @@ const plan = {
 };
 
 const PricingSection = () => {
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+
+  const handlePayment = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-razorpay-order", {
+        body: { amount: 1599, product_name: "Zara AI" },
+      });
+      if (error) throw error;
+
+      const options = {
+        key: data.key_id,
+        amount: data.amount,
+        currency: data.currency,
+        name: "ZARA AI",
+        description: "ZARA AI – Android App",
+        order_id: data.order_id,
+        handler: async (response: any) => {
+          // Send telegram notification
+          await supabase.functions.invoke("send-telegram", {
+            body: {
+              paymentId: response.razorpay_payment_id,
+              productName: "Zara AI",
+              amount: "1599",
+              buyerInfo: "Website User",
+            },
+          });
+          // Redirect to success page
+          window.location.href = `/payment-success?payment_id=${response.razorpay_payment_id}&amount=1599&product=Zara+AI`;
+        },
+        theme: { color: "#e91e8c" },
+      };
+
+      const rzp = new (window as any).Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error("Payment error:", err);
+      toast({ title: "Error", description: "Payment initialization failed. Please try again.", variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section id="pricing" className="py-24">
       <div className="container mx-auto px-6">
@@ -67,8 +114,10 @@ const PricingSection = () => {
               variant="hero"
               className="w-full rounded-full"
               size="lg"
+              onClick={handlePayment}
+              disabled={loading}
             >
-              Get App
+              {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Processing...</> : "Get App"}
             </Button>
           </motion.div>
         </div>

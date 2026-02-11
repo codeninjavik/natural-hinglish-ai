@@ -3,48 +3,58 @@ import { motion } from "framer-motion";
 import { Heart, Mail, Send, MapPin, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSending(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("send-email", {
+        body: { ...form, type: "contact" },
+      });
+      if (error) throw error;
+      setSubmitted(true);
+    } catch (err) {
+      console.error("Email send failed:", err);
+      toast({ title: "Error", description: "Failed to send message. Please try again.", variant: "destructive" });
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Nav */}
       <nav className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-lg border-b border-border/50">
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-display font-bold text-xl">
             <Heart className="w-6 h-6 text-primary fill-primary" />
             <span>ZARA</span>
           </Link>
-          <Link to="/">
-            <Button variant="outline" size="sm" className="rounded-full">Back to Home</Button>
-          </Link>
+          <Link to="/"><Button variant="outline" size="sm" className="rounded-full">Back to Home</Button></Link>
         </div>
       </nav>
 
       <main className="pt-24 pb-16 container mx-auto px-6 max-w-4xl">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="text-primary">Contact</span> Us
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4"><span className="text-primary">Contact</span> Us</h1>
           <p className="text-muted-foreground text-lg">We'd love to hear from you 💌</p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-12">
-          {/* Info */}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} className="space-y-8">
             <div>
               <h2 className="text-2xl font-semibold mb-4">Get in Touch</h2>
               <p className="text-muted-foreground">Have questions about ZARA? Want to collaborate? We're here to help!</p>
             </div>
             {[
-              { icon: Mail, label: "Email", value: "support@zaraai.com" },
+              { icon: Mail, label: "Email", value: "zaraai.in@zohomail.in" },
               { icon: Phone, label: "Phone", value: "+91 98765 43210" },
               { icon: MapPin, label: "Location", value: "India" },
             ].map((item) => (
@@ -60,7 +70,6 @@ const Contact = () => {
             ))}
           </motion.div>
 
-          {/* Form */}
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>
             {submitted ? (
               <div className="rounded-3xl border border-primary/20 bg-card p-8 text-center">
@@ -97,8 +106,8 @@ const Contact = () => {
                     className="w-full bg-secondary rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/30 transition-all placeholder:text-muted-foreground resize-none"
                   />
                 </div>
-                <Button type="submit" variant="hero" className="w-full rounded-full" size="lg">
-                  <Send className="w-4 h-4" /> Send Message
+                <Button type="submit" variant="hero" className="w-full rounded-full" size="lg" disabled={sending}>
+                  <Send className="w-4 h-4" /> {sending ? "Sending..." : "Send Message"}
                 </Button>
               </form>
             )}
