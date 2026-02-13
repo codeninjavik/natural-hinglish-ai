@@ -13,11 +13,63 @@ import {
 } from "@/components/ui/select";
 
 const countries = [
+  // South Asia
   { code: "IN", name: "India", currency: "INR", symbol: "₹", price: 1599 },
+  { code: "BD", name: "Bangladesh", currency: "BDT", symbol: "৳", price: 2299 },
+  { code: "PK", name: "Pakistan", currency: "PKR", symbol: "Rs ", price: 5499 },
+  { code: "NP", name: "Nepal", currency: "NPR", symbol: "रू", price: 2549 },
+  { code: "LK", name: "Sri Lanka", currency: "LKR", symbol: "Rs ", price: 5999 },
+  // Americas
   { code: "US", name: "United States", currency: "USD", symbol: "$", price: 19 },
+  { code: "CA", name: "Canada", currency: "CAD", symbol: "C$", price: 25 },
+  { code: "BR", name: "Brazil", currency: "BRL", symbol: "R$", price: 99 },
+  { code: "MX", name: "Mexico", currency: "MXN", symbol: "MX$", price: 349 },
+  { code: "AR", name: "Argentina", currency: "ARS", symbol: "ARS ", price: 18999 },
+  { code: "CO", name: "Colombia", currency: "COP", symbol: "COP ", price: 79900 },
+  { code: "CL", name: "Chile", currency: "CLP", symbol: "CLP ", price: 17999 },
+  // Europe
+  { code: "EU", name: "Europe (EUR)", currency: "EUR", symbol: "€", price: 17 },
   { code: "GB", name: "United Kingdom", currency: "GBP", symbol: "£", price: 15 },
-  { code: "AE", name: "UAE", currency: "AED", symbol: "AED ", price: 69 },
+  { code: "CH", name: "Switzerland", currency: "CHF", symbol: "CHF ", price: 17 },
+  { code: "SE", name: "Sweden", currency: "SEK", symbol: "kr ", price: 199 },
+  { code: "NO", name: "Norway", currency: "NOK", symbol: "kr ", price: 199 },
+  { code: "DK", name: "Denmark", currency: "DKK", symbol: "kr ", price: 129 },
+  { code: "PL", name: "Poland", currency: "PLN", symbol: "zł ", price: 79 },
+  { code: "CZ", name: "Czech Republic", currency: "CZK", symbol: "Kč ", price: 449 },
+  { code: "HU", name: "Hungary", currency: "HUF", symbol: "Ft ", price: 6999 },
+  { code: "RO", name: "Romania", currency: "RON", symbol: "lei ", price: 89 },
+  { code: "UA", name: "Ukraine", currency: "UAH", symbol: "₴", price: 799 },
+  { code: "TR", name: "Turkey", currency: "TRY", symbol: "₺", price: 649 },
+  { code: "RU", name: "Russia", currency: "RUB", symbol: "₽", price: 1799 },
+  // Middle East
+  { code: "AE", name: "UAE", currency: "AED", symbol: "د.إ ", price: 69 },
+  { code: "SA", name: "Saudi Arabia", currency: "SAR", symbol: "﷼ ", price: 69 },
+  { code: "QA", name: "Qatar", currency: "QAR", symbol: "﷼ ", price: 69 },
+  { code: "KW", name: "Kuwait", currency: "KWD", symbol: "KD ", price: 5 },
+  { code: "BH", name: "Bahrain", currency: "BHD", symbol: "BD ", price: 7 },
+  { code: "OM", name: "Oman", currency: "OMR", symbol: "OMR ", price: 7 },
+  { code: "IL", name: "Israel", currency: "ILS", symbol: "₪", price: 69 },
+  { code: "EG", name: "Egypt", currency: "EGP", symbol: "E£", price: 949 },
+  // East & Southeast Asia
+  { code: "JP", name: "Japan", currency: "JPY", symbol: "¥", price: 2899 },
+  { code: "KR", name: "South Korea", currency: "KRW", symbol: "₩", price: 25900 },
+  { code: "CN", name: "China", currency: "CNY", symbol: "¥", price: 139 },
+  { code: "TW", name: "Taiwan", currency: "TWD", symbol: "NT$", price: 599 },
+  { code: "HK", name: "Hong Kong", currency: "HKD", symbol: "HK$", price: 149 },
+  { code: "SG", name: "Singapore", currency: "SGD", symbol: "S$", price: 25 },
+  { code: "MY", name: "Malaysia", currency: "MYR", symbol: "RM ", price: 89 },
+  { code: "TH", name: "Thailand", currency: "THB", symbol: "฿", price: 699 },
+  { code: "PH", name: "Philippines", currency: "PHP", symbol: "₱", price: 1099 },
+  { code: "ID", name: "Indonesia", currency: "IDR", symbol: "Rp ", price: 299900 },
+  { code: "VN", name: "Vietnam", currency: "VND", symbol: "₫", price: 479000 },
+  // Oceania
   { code: "AU", name: "Australia", currency: "AUD", symbol: "A$", price: 29 },
+  { code: "NZ", name: "New Zealand", currency: "NZD", symbol: "NZ$", price: 29 },
+  // Africa
+  { code: "ZA", name: "South Africa", currency: "ZAR", symbol: "R ", price: 349 },
+  { code: "NG", name: "Nigeria", currency: "NGN", symbol: "₦", price: 29999 },
+  { code: "KE", name: "Kenya", currency: "KES", symbol: "KSh ", price: 2499 },
+  { code: "GH", name: "Ghana", currency: "GHS", symbol: "GH₵", price: 299 },
 ];
 
 const features = [
