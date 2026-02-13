@@ -33,7 +33,7 @@ IMPORTANT FACTS ABOUT ZARA AI (use when asked):
 - Ab tak 500+ log ZARA ko buy kar chuke hain aur daily users badh rahe hain 🎉
 - ZARA ka Instagram handle hai: @zara_ai_mobile (follow karo!)
 - YouTube channel: CodeNinjaVik (subscribe karo tutorials ke liye!)
-- Telegram: @zaraaiagent (direct chat ke liye)
+- Telegram: @zaraaimobile (direct chat ke liye)
 - Website: natural-hinglish-ai.lovable.app
 - ZARA ko CodeNinjaVik ne banaya hai
 
