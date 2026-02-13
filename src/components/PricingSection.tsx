@@ -1,36 +1,49 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, Smartphone, Loader2 } from "lucide-react";
+import { Check, Smartphone, Loader2, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-const plan = {
-  icon: Smartphone,
-  name: "ZARA AI – Android App",
-  price: "₹1,599",
-  features: [
-    "Full AI Girlfriend experience",
-    "Voice + Chat support",
-    "Emotional intelligence",
-    "Facebook post & multiple voice",
-    "Behavior prompt support",
-    "Calling & WhatsApp calling",
-    "App-to-app opening",
-    "24/7 availability",
-    "Daily conversations",
-  ],
-};
+const countries = [
+  { code: "IN", name: "India", currency: "INR", symbol: "₹", price: 1599 },
+  { code: "US", name: "United States", currency: "USD", symbol: "$", price: 19 },
+  { code: "GB", name: "United Kingdom", currency: "GBP", symbol: "£", price: 15 },
+  { code: "AE", name: "UAE", currency: "AED", symbol: "AED ", price: 69 },
+  { code: "AU", name: "Australia", currency: "AUD", symbol: "A$", price: 29 },
+];
+
+const features = [
+  "Full AI Girlfriend experience",
+  "Voice + Chat support",
+  "Emotional intelligence",
+  "Facebook post & multiple voice",
+  "Behavior prompt support",
+  "Calling & WhatsApp calling",
+  "App-to-app opening",
+  "24/7 availability",
+  "Daily conversations",
+];
 
 const PricingSection = () => {
   const [loading, setLoading] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState("IN");
   const { toast } = useToast();
+
+  const country = countries.find((c) => c.code === selectedCountry)!;
 
   const handlePayment = async () => {
     setLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("create-razorpay-order", {
-        body: { amount: 1599, product_name: "Zara AI" },
+        body: { amount: country.price, currency: country.currency, product_name: "Zara AI" },
       });
       if (error) throw error;
 
@@ -42,17 +55,15 @@ const PricingSection = () => {
         description: "ZARA AI – Android App",
         order_id: data.order_id,
         handler: async (response: any) => {
-          // Send telegram notification
           await supabase.functions.invoke("send-telegram", {
             body: {
               paymentId: response.razorpay_payment_id,
               productName: "Zara AI",
-              amount: "1599",
-              buyerInfo: "Website User",
+              amount: `${country.symbol}${country.price}`,
+              buyerInfo: `Website User (${country.name})`,
             },
           });
-          // Redirect to success page
-          window.location.href = `/payment-success?payment_id=${response.razorpay_payment_id}&amount=1599&product=Zara+AI`;
+          window.location.href = `/payment-success?payment_id=${response.razorpay_payment_id}&amount=${country.price}&product=Zara+AI&currency=${country.symbol}`;
         },
         theme: { color: "#e91e8c" },
       };
@@ -94,16 +105,34 @@ const PricingSection = () => {
             </div>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                <plan.icon className="w-5 h-5 text-primary" />
+                <Smartphone className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="font-semibold text-lg">{plan.name}</h3>
+              <h3 className="font-semibold text-lg">ZARA AI – Android App</h3>
             </div>
+
+            {/* Country Selector */}
+            <div className="mb-4">
+              <Select value={selectedCountry} onValueChange={setSelectedCountry}>
+                <SelectTrigger className="w-full rounded-xl">
+                  <Globe className="w-4 h-4 mr-2 text-muted-foreground" />
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {countries.map((c) => (
+                    <SelectItem key={c.code} value={c.code}>
+                      {c.name} ({c.symbol}{c.price})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
             <div className="mb-6">
-              <span className="text-4xl font-bold">{plan.price}</span>
+              <span className="text-4xl font-bold">{country.symbol}{country.price}</span>
               <span className="text-muted-foreground ml-1">one-time</span>
             </div>
             <ul className="space-y-3 mb-8">
-              {plan.features.map((f) => (
+              {features.map((f) => (
                 <li key={f} className="flex items-center gap-2 text-sm">
                   <Check className="w-4 h-4 text-primary flex-shrink-0" />
                   <span>{f}</span>
