@@ -120,9 +120,16 @@ const ChatDemo = ({ isOpen, onClose }: ChatDemoProps) => {
       }
     } catch (e) {
       console.error("Chat error:", e);
+      const errorMsg = e instanceof Error ? e.message : "";
+      let friendlyMsg = "Oops… kuch gadbad ho gayi 🥺 Dobara try karo na please?";
+      if (errorMsg.includes("Credits exhausted") || errorMsg.includes("402")) {
+        friendlyMsg = "ZARA abhi thodi busy hai 😴 Credits khatam ho gaye hain. Thodi der baad try karo!";
+      } else if (errorMsg.includes("Rate limit") || errorMsg.includes("429")) {
+        friendlyMsg = "Arre bohot fast message aa rahe hain 😅 Thoda ruko, phir try karo!";
+      }
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "Oops… kuch gadbad ho gayi 🥺 Dobara try karo na please?" },
+        { role: "assistant", content: friendlyMsg },
       ]);
     } finally {
       setIsLoading(false);
