@@ -16,23 +16,26 @@ const RefundPolicy = () => (
     <main className="pt-24 pb-16 container mx-auto px-6 max-w-3xl">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
         <h1 className="text-4xl font-bold mb-8">Refund & Cancellation <span className="text-primary">Policy</span></h1>
+        {/* Important Notice */}
+        <div className="bg-destructive/10 border border-destructive/30 rounded-xl p-5 mb-8">
+          <p className="text-destructive font-semibold text-base">⚠️ Important Notice:</p>
+          <p className="text-foreground mt-2 text-sm">ZARA AI App buy karne se pahle yeh policy dhyan se padh lein. <strong>Ek baar payment hone ke baad paisa wapis / refund nahi hoga.</strong> Yeh ek digital product hai jo turant deliver hota hai, isliye koi bhi refund ya cancellation applicable nahi hai.</p>
+        </div>
+
         <div className="prose prose-sm max-w-none text-muted-foreground space-y-4">
           <p><strong>Effective Date:</strong> {new Date().getFullYear()}</p>
-          <h2 className="text-lg font-semibold text-foreground">1. Digital Products</h2>
-          <p>All purchases of the ZARA AI Girlfriend App and Source Code are final. Since these are digital products delivered instantly, we generally do not offer refunds.</p>
-          <h2 className="text-lg font-semibold text-foreground">2. Eligibility for Refund</h2>
-          <p>Refunds may be considered within 7 days of purchase if:</p>
-          <ul className="list-disc pl-5 space-y-1">
-            <li>The product was not delivered or is non-functional</li>
-            <li>There is a major defect that cannot be resolved</li>
-            <li>Duplicate payment was charged</li>
-          </ul>
-          <h2 className="text-lg font-semibold text-foreground">3. How to Request</h2>
-          <p>Email us at <strong>support@zaraai.com</strong> with your order details and reason for refund. We will respond within 5-7 business days.</p>
-          <h2 className="text-lg font-semibold text-foreground">4. Refund Processing</h2>
-          <p>Approved refunds will be processed to the original payment method within 7-10 business days.</p>
-          <h2 className="text-lg font-semibold text-foreground">5. Cancellation</h2>
-          <p>Since our products are one-time purchases (not subscriptions), cancellation does not apply. If you have any concerns, please reach out to our support team.</p>
+
+          <h2 className="text-lg font-semibold text-foreground">1. No Refund Policy</h2>
+          <p>ZARA AI Girlfriend App aur Source Code ki sabhi purchases <strong>final hain</strong>. Yeh ek digital product hai jo instantly deliver hota hai, isliye <strong>kisi bhi condition mein refund ya paisa wapis nahi kiya jayega</strong>.</p>
+
+          <h2 className="text-lg font-semibold text-foreground">2. No Cancellation</h2>
+          <p>Yeh ek one-time purchase hai (subscription nahi hai), isliye cancellation ka koi option nahi hai. Payment karne ke baad order cancel nahi hoga aur <strong>refund applicable nahi hai</strong>.</p>
+
+          <h2 className="text-lg font-semibold text-foreground">3. Duplicate Payment</h2>
+          <p>Agar galti se duplicate payment ho gayi hai, toh humse contact karein. Duplicate payment verify hone ke baad extra amount wapis kiya ja sakta hai.</p>
+
+          <h2 className="text-lg font-semibold text-foreground">4. Contact Us</h2>
+          <p>Koi bhi query ho toh humse contact karein: <strong>support@zaraai.com</strong> ya Telegram: <strong>@zaraaimobile</strong></p>
         </div>
       </motion.div>
     </main>
