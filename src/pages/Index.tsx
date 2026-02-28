@@ -2,24 +2,34 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import HoliBanner from "@/components/HoliBanner";
 import HeroSection from "@/components/HeroSection";
 import FeaturesSection from "@/components/FeaturesSection";
+import HoliEmotionalSection from "@/components/HoliEmotionalSection";
 import PricingSection from "@/components/PricingSection";
 import ChatDemo from "@/components/ChatDemo";
 import Footer from "@/components/Footer";
 import PartnerSection from "@/components/PartnerSection";
+import HoliConfetti from "@/components/HoliConfetti";
+import HoliExitPopup from "@/components/HoliExitPopup";
 
 const Index = () => {
   const [chatOpen, setChatOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-background scroll-smooth">
+      <HoliBanner />
       <Navbar onStartChat={() => setChatOpen(true)} />
       <HeroSection onStartChat={() => setChatOpen(true)} />
       <FeaturesSection />
+      <HoliEmotionalSection />
       <PricingSection />
       <PartnerSection />
       <Footer />
+
+      {/* Holi effects */}
+      <HoliConfetti />
+      <HoliExitPopup />
 
       {/* Chat Demo */}
       <ChatDemo isOpen={chatOpen} onClose={() => setChatOpen(false)} />
