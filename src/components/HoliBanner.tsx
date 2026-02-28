@@ -1,30 +1,13 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Gift, Clock } from "lucide-react";
+import { useHoliCountdown } from "@/hooks/useHoliCountdown";
 
 const HoliBanner = () => {
   const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [showBanner, setShowBanner] = useState(true);
-
-  // Rang Panchami date (5 days after Holi)
-  const targetDate = new Date("2026-03-19T23:59:59").getTime();
-
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const now = Date.now();
-      const diff = Math.max(0, targetDate - now);
-      setTimeLeft({
-        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((diff / (1000 * 60)) % 60),
-        seconds: Math.floor((diff / 1000) % 60),
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+  const timeLeft = useHoliCountdown();
 
   // Hide on scroll down, show on scroll up (mobile friendly)
   useEffect(() => {

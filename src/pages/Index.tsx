@@ -12,6 +12,7 @@ import Footer from "@/components/Footer";
 import PartnerSection from "@/components/PartnerSection";
 import HoliConfetti from "@/components/HoliConfetti";
 import HoliExitPopup from "@/components/HoliExitPopup";
+import HoliFestiveBadge from "@/components/HoliFestiveBadge";
 
 const Index = () => {
   const [chatOpen, setChatOpen] = useState(false);
@@ -30,6 +31,7 @@ const Index = () => {
       {/* Holi effects */}
       <HoliConfetti />
       <HoliExitPopup />
+      <HoliFestiveBadge />
 
       {/* Chat Demo */}
       <ChatDemo isOpen={chatOpen} onClose={() => setChatOpen(false)} />
