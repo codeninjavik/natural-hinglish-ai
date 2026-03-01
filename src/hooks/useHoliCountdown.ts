@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const TARGET_DATE = new Date("2026-03-03T23:59:59").getTime();
+const TARGET_DATE = new Date("2026-03-01T23:59:59").getTime();
 
 export const useHoliCountdown = () => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
