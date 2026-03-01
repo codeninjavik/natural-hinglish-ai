@@ -52,7 +52,7 @@ const HoliExitPopup = () => {
               Arre Ruko! Holi Gift Chhut Raha Hai
             </h3>
             <p className="text-muted-foreground text-sm mb-6">
-              Limited Time – Holi Exclusive <strong className="text-primary">50% OFF</strong> sirf aaj ke liye!
+              Limited Time – Holi Exclusive <strong className="text-primary">30% OFF</strong> sirf aaj ke liye!
             </p>
             <Button variant="hero" size="lg" className="w-full rounded-full" onClick={scrollToPricing}>
               <Gift className="w-5 h-5" />
