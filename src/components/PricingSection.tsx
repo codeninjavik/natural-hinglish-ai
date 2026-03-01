@@ -104,13 +104,13 @@ const PricingSection = () => {
         amount: data.amount,
         currency: data.currency,
         name: "ZARA AI",
-        description: "ZARA AI – Android App (Holi 50% OFF)",
+        description: "ZARA AI – Android App (Holi 30% OFF)",
         order_id: data.order_id,
         handler: async (response: any) => {
           await supabase.functions.invoke("send-telegram", {
             body: {
               paymentId: response.razorpay_payment_id,
-              productName: "Zara AI (Holi 50% OFF)",
+              productName: "Zara AI (Holi 30% OFF)",
               amount: `${country.symbol}${discountedPrice}`,
               buyerInfo: `Website User (${country.name})`,
             },
@@ -147,7 +147,7 @@ const PricingSection = () => {
         >
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-sm font-semibold px-4 py-1.5 rounded-full mb-4">
             <Tag className="w-4 h-4" />
-            Holi Special – 50% OFF
+            Holi Special – 30% OFF
           </div>
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
             Get <span className="text-primary font-logo tracking-[0.15em]">ZARA</span> Today
@@ -173,7 +173,7 @@ const PricingSection = () => {
           >
             {/* Corner ribbon */}
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-semibold px-4 py-1 rounded-full">
-              🎨 Holi Special – 50% OFF
+              🎨 Holi Special – 30% OFF
             </div>
 
             <div className="flex items-center gap-3 mb-4 mt-2">
@@ -217,7 +217,7 @@ const PricingSection = () => {
             {/* Discount label */}
             <div className="inline-flex items-center gap-1.5 bg-green-500/10 text-green-600 dark:text-green-400 text-xs font-semibold px-3 py-1 rounded-full mb-6">
               <Check className="w-3 h-3" />
-              Holi 50% OFF Applied – You save {country.symbol}{savings}
+              Holi 30% OFF Applied – You save {country.symbol}{savings}
             </div>
 
             <ul className="space-y-3 mb-8">
