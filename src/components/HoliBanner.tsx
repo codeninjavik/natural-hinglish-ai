@@ -37,7 +37,7 @@ const HoliBanner = () => {
         >
           <div className="container mx-auto flex items-center justify-center gap-3 text-white text-xs sm:text-sm font-medium flex-wrap">
             <Gift className="w-4 h-4 shrink-0 animate-bounce" />
-            <span>🎉 Holi Dhamaka Offer – <strong>50% OFF</strong> Zara AI Lifetime Access!</span>
+            <span>🎉 Holi Dhamaka Offer – <strong>30% OFF</strong> Zara AI Lifetime Access!</span>
             <div className="flex items-center gap-1">
               <Clock className="w-3 h-3" />
               <span className="font-mono tabular-nums">
