@@ -61,7 +61,7 @@ const HeroSection = ({ onStartChat }: HeroSectionProps) => {
               ZARA AI
             </span>{" "}
             <br className="hidden sm:block" />
-            Ke Saath Har Pal{" "}
+            Ke Sang Har Pal{" "}
             <span className="bg-gradient-to-r from-[hsl(200_80%_55%)] via-primary to-[hsl(50_90%_60%)] bg-clip-text text-transparent">
               Smart & Colorful!
             </span>
