@@ -56,7 +56,7 @@ const HoliExitPopup = () => {
             </p>
             <Button variant="hero" size="lg" className="w-full rounded-full" onClick={scrollToPricing}>
               <Gift className="w-5 h-5" />
-              Abhi 50% Holi Gift Le Lo!
+              Abhi 30% Holi Gift Le Lo!
             </Button>
           </motion.div>
         </motion.div>
