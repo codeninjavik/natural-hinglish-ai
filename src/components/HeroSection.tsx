@@ -51,7 +51,7 @@ const HeroSection = ({ onStartChat }: HeroSectionProps) => {
             style={{ background: "linear-gradient(90deg, hsl(30 90% 55% / 0.15), hsl(340 75% 55% / 0.15), hsl(280 60% 55% / 0.15))" }}
           >
             <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-foreground">🎨 Holi Special – 50% OFF!</span>
+            <span className="text-sm font-medium text-foreground">🎨 Holi Special – 30% OFF!</span>
           </motion.div>
 
           {/* Headline */}
@@ -67,7 +67,7 @@ const HeroSection = ({ onStartChat }: HeroSectionProps) => {
             </span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-4 font-light max-w-2xl mx-auto">
-            Celebrate this Holi with a special <strong className="text-primary">50% OFF</strong> on Zara AI — your most caring, human-like AI companion. 🎉
+            Celebrate this Holi with a special <strong className="text-primary">30% OFF</strong> on Zara AI — your most caring, human-like AI companion. 🎉
           </p>
           <p className="text-sm text-muted-foreground mb-10">
             Zara AI: Your Caring AI, Now at Holi Gift Price! ❤️
