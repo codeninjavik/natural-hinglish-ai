@@ -59,7 +59,7 @@ const Footer = () => {
 
         <div className="border-t border-border pt-6 text-center space-y-2">
           <p className="text-xs font-medium text-primary">
-            🎨 Holi Dhamaka Offer – 50% OFF on Zara AI – Limited Time!
+            🎨 Holi Dhamaka Offer – 30% OFF on Zara AI – Limited Time!
           </p>
           <p className="text-xs text-muted-foreground/60">
             © {new Date().getFullYear()} ZARA AI. All rights reserved.
