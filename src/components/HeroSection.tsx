@@ -82,7 +82,7 @@ const HeroSection = ({ onStartChat }: HeroSectionProps) => {
               onClick={scrollToPricing}
             >
               <Gift className="w-5 h-5" />
-              Claim 50% Holi Gift
+              Claim 30% Holi Gift
             </Button>
             <Button variant="outline" size="lg" className="rounded-full px-8 py-6" asChild>
               <a href="#features">
