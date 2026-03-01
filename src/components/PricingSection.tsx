@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { useHoliCountdown } from "@/hooks/useHoliCountdown";
 
-const HOLI_DISCOUNT = 0.5;
+const HOLI_DISCOUNT = 0.5001;
 
 const countries = [
   { code: "IN", name: "India", currency: "INR", symbol: "₹", price: 1599 },
