@@ -30,7 +30,7 @@ serve(async (req) => {
 🌐 *Website:* ZARA AI
 📅 *Date:* ${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}`;
 
-    const telegramUrl = `https://api.telegrem.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+    const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
     const response = await fetch(telegramUrl, {
       method: "POST",
@@ -44,9 +44,9 @@ serve(async (req) => {
 
     const data = await response.json();
 
-    // if (!response.ok) {
-    //   throw new Error(`Telegram API error [${response.status}]: ${JSON.stringify(data)}`);
-    // }
+    if (!response.ok) {
+      throw new Error(`Telegram API error [${response.status}]: ${JSON.stringify(data)}`);
+    }
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
