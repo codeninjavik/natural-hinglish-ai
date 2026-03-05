@@ -11,7 +11,8 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { action, password, code, discount_percent, max_uses } = await req.json();
+    const body = await req.json();
+    const { action, password } = body;
     const adminPassword = Deno.env.get("ADMIN_PASSWORD");
 
     if (password !== adminPassword) {
@@ -33,15 +34,14 @@ Deno.serve(async (req) => {
     }
 
     if (action === "generate_coupon") {
-      // Generate coupon code like ZARA-XXXX-XXXX
       const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
       const randomPart = (len: number) => Array.from({ length: len }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
-      const generatedCode = code || `ZARA-${randomPart(4)}-${randomPart(4)}`;
+      const generatedCode = body.code || `ZARA-${randomPart(4)}-${randomPart(4)}`;
 
       const { data, error } = await supabase.from("coupons").insert({
         code: generatedCode.toUpperCase(),
-        discount_percent: discount_percent || 10,
-        max_uses: max_uses || 1,
+        discount_percent: body.discount_percent || 10,
+        max_uses: body.max_uses || 1,
       }).select().single();
 
       if (error) {
@@ -57,7 +57,7 @@ Deno.serve(async (req) => {
     }
 
     if (action === "list_coupons") {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from("coupons")
         .select("*")
         .order("created_at", { ascending: false });
@@ -68,9 +68,6 @@ Deno.serve(async (req) => {
     }
 
     if (action === "toggle_coupon") {
-      const { coupon_id, is_active } = await req.json();
-      // Re-parse not needed, already destructured above. Use the body params.
-      const body = await req.clone().json?.() || {};
       await supabase.from("coupons").update({ is_active: body.is_active }).eq("id", body.coupon_id);
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -78,7 +75,6 @@ Deno.serve(async (req) => {
     }
 
     if (action === "delete_coupon") {
-      const body = await req.clone().json?.() || {};
       await supabase.from("coupons").delete().eq("id", body.coupon_id);
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
