@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Gift, Sparkles } from "lucide-react";
+import { Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 import heroBg from "@/assets/hero-bg.jpg";
@@ -27,12 +27,10 @@ const HeroSection = ({ onStartChat }: HeroSectionProps) => {
         <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/30 to-background" />
       </motion.div>
 
-      {/* Holi color splashes */}
+      {/* Subtle background glows */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[20%] left-[5%] w-72 h-72 rounded-full bg-[hsl(340_75%_55%)] opacity-10 blur-[100px] animate-pulse" />
-        <div className="absolute top-[30%] right-[8%] w-60 h-60 rounded-full bg-[hsl(200_80%_55%)] opacity-10 blur-[90px] animate-pulse" style={{ animationDelay: "1s" }} />
-        <div className="absolute bottom-[20%] left-[30%] w-80 h-80 rounded-full bg-[hsl(50_90%_60%)] opacity-8 blur-[110px] animate-pulse" style={{ animationDelay: "2s" }} />
-        <div className="absolute top-[50%] right-[25%] w-48 h-48 rounded-full bg-[hsl(280_60%_55%)] opacity-10 blur-[80px] animate-pulse" style={{ animationDelay: "0.5s" }} />
+        <div className="absolute top-[20%] left-[10%] w-72 h-72 rounded-full bg-primary/10 blur-[100px]" />
+        <div className="absolute bottom-[20%] right-[10%] w-60 h-60 rounded-full bg-accent/10 blur-[90px]" />
       </div>
 
       <motion.div className="relative z-10 container mx-auto px-6 text-center" style={{ y: textY, opacity }}>
@@ -47,73 +45,49 @@ const HeroSection = ({ onStartChat }: HeroSectionProps) => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 rounded-full px-4 py-2 mb-8"
-            style={{ background: "linear-gradient(90deg, hsl(30 90% 55% / 0.15), hsl(340 75% 55% / 0.15), hsl(280 60% 55% / 0.15))" }}
+            className="inline-flex items-center gap-2 rounded-full px-4 py-2 mb-8 bg-primary/10"
           >
             <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-foreground">🎨 Holi Special – 30% OFF!</span>
+            <span className="text-sm font-medium text-foreground">Your AI Companion Who Truly Cares</span>
           </motion.div>
 
           {/* Headline */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 leading-tight">
-            Holi Ke Rang…{" "}
+            Meet{" "}
             <span className="font-logo tracking-[0.15em] bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               ZARA AI
             </span>{" "}
             <br className="hidden sm:block" />
-            Ke Sang... Har Pal{" "}
-            <span className="bg-gradient-to-r from-[hsl(200_80%_55%)] via-primary to-[hsl(50_90%_60%)] bg-clip-text text-transparent">
-              Smart & Colorful!
+            Your Most Caring{" "}
+            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              AI Companion
             </span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-4 font-light max-w-2xl mx-auto">
-            Celebrate this Holi with a special <strong className="text-primary">30% OFF</strong> on Zara AI — your most caring, human-like AI companion. 🎉
+            Experience human-like conversations, emotional intelligence, and 24/7 availability — all in one app.
           </p>
           <p className="text-sm text-muted-foreground mb-10">
-            Zara AI: Your Caring AI, Now at Holi Gift Price! ❤️
+            Zara AI understands you like no other ❤️
           </p>
 
           {/* CTA */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button
+              variant="hero"
               size="lg"
-              className="text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 text-white"
-              style={{ background: "linear-gradient(90deg, hsl(30 90% 55%), hsl(340 75% 55%), hsl(280 60% 55%))" }}
+              className="text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
               onClick={scrollToPricing}
             >
-              <Gift className="w-5 h-5" />
-              Claim 30% Holi Gift
+              <ArrowRight className="w-5 h-5" />
+              Get Zara AI Now
             </Button>
             <Button variant="outline" size="lg" className="rounded-full px-8 py-6" asChild>
               <a href="#features">
                 <Sparkles className="w-5 h-5" />
-                Explore Zara AI Features
+                Explore Features
               </a>
             </Button>
           </div>
-        </motion.div>
-
-        {/* Floating Holi elements */}
-        <motion.div
-          animate={{ y: [-10, 10, -10] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/4 left-[15%] text-4xl"
-        >
-          🎨
-        </motion.div>
-        <motion.div
-          animate={{ y: [10, -10, 10] }}
-          transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/3 right-[15%] text-3xl"
-        >
-          🌈
-        </motion.div>
-        <motion.div
-          animate={{ y: [-8, 12, -8] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-1/3 left-[10%] text-2xl"
-        >
-          💜
         </motion.div>
       </motion.div>
     </section>
