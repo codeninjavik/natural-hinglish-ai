@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, Smartphone, Loader2, Globe, Clock, Tag } from "lucide-react";
+import { Check, Smartphone, Loader2, Globe, Tag, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -11,9 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useHoliCountdown } from "@/hooks/useHoliCountdown";
-
-const HOLI_DISCOUNT = 0.6946;
 
 const countries = [
   { code: "IN", name: "India", currency: "INR", symbol: "₹", price: 1599 },
@@ -83,19 +81,50 @@ const features = [
 const PricingSection = () => {
   const [loading, setLoading] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState("IN");
+  const [couponCode, setCouponCode] = useState("");
+  const [couponApplied, setCouponApplied] = useState<{ code: string; discount: number } | null>(null);
+  const [couponLoading, setCouponLoading] = useState(false);
   const { toast } = useToast();
-  const timeLeft = useHoliCountdown();
 
   const country = countries.find((c) => c.code === selectedCountry)!;
   const originalPrice = country.price;
-  const discountedPrice = Math.round(originalPrice * HOLI_DISCOUNT);
-  const savings = originalPrice - discountedPrice;
+  const finalPrice = couponApplied
+    ? Math.round(originalPrice * (1 - couponApplied.discount / 100))
+    : originalPrice;
+  const savings = originalPrice - finalPrice;
+
+  const handleApplyCoupon = async () => {
+    if (!couponCode.trim()) return;
+    setCouponLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("validate-coupon", {
+        body: { code: couponCode.trim().toUpperCase() },
+      });
+      if (error) throw error;
+      if (data?.valid) {
+        setCouponApplied({ code: data.code, discount: data.discount_percent });
+        toast({ title: "Coupon Applied! 🎉", description: `${data.discount_percent}% discount applied successfully.` });
+      } else {
+        toast({ title: "Invalid Coupon", description: data?.message || "This coupon is not valid.", variant: "destructive" });
+      }
+    } catch (err) {
+      console.error("Coupon error:", err);
+      toast({ title: "Error", description: "Could not validate coupon. Try again.", variant: "destructive" });
+    } finally {
+      setCouponLoading(false);
+    }
+  };
+
+  const removeCoupon = () => {
+    setCouponApplied(null);
+    setCouponCode("");
+  };
 
   const handlePayment = async () => {
     setLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("create-razorpay-order", {
-        body: { amount: discountedPrice, currency: country.currency, product_name: "Zara AI" },
+        body: { amount: finalPrice, currency: country.currency, product_name: "Zara AI" },
       });
       if (error) throw error;
 
@@ -104,18 +133,29 @@ const PricingSection = () => {
         amount: data.amount,
         currency: data.currency,
         name: "ZARA AI",
-        description: "ZARA AI – Android App (Holi 30% OFF)",
+        description: couponApplied ? `ZARA AI – ${couponApplied.discount}% OFF (${couponApplied.code})` : "ZARA AI – Android App",
         order_id: data.order_id,
         handler: async (response: any) => {
           await supabase.functions.invoke("send-telegram", {
             body: {
               paymentId: response.razorpay_payment_id,
-              productName: "Zara AI (Holi 30% OFF)",
-              amount: `${country.symbol}${discountedPrice}`,
+              productName: couponApplied ? `Zara AI (Coupon: ${couponApplied.code})` : "Zara AI",
+              amount: `${country.symbol}${finalPrice}`,
               buyerInfo: `Website User (${country.name})`,
             },
           });
-          window.location.href = `/payment-success?payment_id=${response.razorpay_payment_id}&amount=${discountedPrice}&product=Zara+AI&currency=${country.symbol}&original=${originalPrice}&savings=${savings}`;
+          const params = new URLSearchParams({
+            payment_id: response.razorpay_payment_id,
+            amount: String(finalPrice),
+            product: "Zara AI",
+            currency: country.symbol,
+          });
+          if (couponApplied) {
+            params.set("original", String(originalPrice));
+            params.set("savings", String(savings));
+            params.set("coupon", couponApplied.code);
+          }
+          window.location.href = `/payment-success?${params.toString()}`;
         },
         theme: { color: "#e91e8c" },
       };
@@ -132,7 +172,6 @@ const PricingSection = () => {
 
   return (
     <section id="pricing" className="py-24 relative">
-      {/* Festive background glow */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
@@ -145,23 +184,10 @@ const PricingSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-sm font-semibold px-4 py-1.5 rounded-full mb-4">
-            <Tag className="w-4 h-4" />
-            Holi Special – 30% OFF
-          </div>
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
             Get <span className="text-primary font-logo tracking-[0.15em]">ZARA</span> Today
           </h2>
-          <p className="text-muted-foreground text-lg">Holi Dhamaka – Half Price, Full Experience!</p>
-
-          {/* Countdown in pricing */}
-          <div className="flex items-center justify-center gap-2 mt-4 text-sm text-muted-foreground">
-            <Clock className="w-4 h-4 text-primary" />
-            <span>Offer ends in:</span>
-            <span className="font-mono tabular-nums font-semibold text-foreground">
-              {timeLeft.days}d {String(timeLeft.hours).padStart(2, "0")}:{String(timeLeft.minutes).padStart(2, "0")}:{String(timeLeft.seconds).padStart(2, "0")}
-            </span>
-          </div>
+          <p className="text-muted-foreground text-lg">One-time purchase. Lifetime access.</p>
         </motion.div>
 
         <div className="max-w-md mx-auto">
@@ -171,18 +197,13 @@ const PricingSection = () => {
             viewport={{ once: true }}
             className="relative rounded-3xl p-8 border border-primary bg-gradient-to-b from-primary/5 to-transparent shadow-[var(--shadow-glow)]"
           >
-            {/* Corner ribbon */}
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-semibold px-4 py-1 rounded-full">
-              🎨 Holi Special – 30% OFF
-            </div>
-
-            <div className="flex items-center gap-3 mb-4 mt-2">
+            <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
                 <Smartphone className="w-5 h-5 text-primary" />
               </div>
               <div>
                 <h3 className="font-semibold text-lg">ZARA AI – Android App</h3>
-                <span className="text-xs text-primary font-medium">Holi Edition 🎉</span>
+                <span className="text-xs text-muted-foreground">Lifetime Access</span>
               </div>
             </div>
 
@@ -196,31 +217,76 @@ const PricingSection = () => {
                 <SelectContent>
                   {countries.map((c) => (
                     <SelectItem key={c.code} value={c.code}>
-                      {c.name} ({c.symbol}{Math.round(c.price * HOLI_DISCOUNT)})
+                      {c.name} ({c.symbol}{c.price})
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
 
-            {/* Price with strikethrough */}
+            {/* Coupon Code Input */}
+            <div className="mb-4">
+              {couponApplied ? (
+                <div className="flex items-center justify-between p-3 rounded-xl bg-green-500/10 border border-green-500/20">
+                  <div className="flex items-center gap-2">
+                    <Ticket className="w-4 h-4 text-green-600 dark:text-green-400" />
+                    <span className="text-sm font-semibold text-green-600 dark:text-green-400">
+                      {couponApplied.code} – {couponApplied.discount}% OFF
+                    </span>
+                  </div>
+                  <button onClick={removeCoupon} className="text-xs text-muted-foreground hover:text-destructive transition-colors">
+                    Remove
+                  </button>
+                </div>
+              ) : (
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Enter coupon code"
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                    className="rounded-xl font-mono text-sm"
+                  />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="rounded-xl px-4 shrink-0"
+                    onClick={handleApplyCoupon}
+                    disabled={couponLoading || !couponCode.trim()}
+                  >
+                    {couponLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Apply"}
+                  </Button>
+                </div>
+              )}
+            </div>
+
+            {/* Price */}
             <div className="mb-2">
-              <span className="text-xl text-muted-foreground line-through mr-3">
-                {country.symbol}{originalPrice}
-              </span>
-              <span className="text-4xl font-bold text-foreground">
-                {country.symbol}{discountedPrice}
-              </span>
+              {couponApplied ? (
+                <>
+                  <span className="text-xl text-muted-foreground line-through mr-3">
+                    {country.symbol}{originalPrice}
+                  </span>
+                  <span className="text-4xl font-bold text-foreground">
+                    {country.symbol}{finalPrice}
+                  </span>
+                </>
+              ) : (
+                <span className="text-4xl font-bold text-foreground">
+                  {country.symbol}{originalPrice}
+                </span>
+              )}
               <span className="text-muted-foreground ml-1">one-time</span>
             </div>
 
             {/* Discount label */}
-            <div className="inline-flex items-center gap-1.5 bg-green-500/10 text-green-600 dark:text-green-400 text-xs font-semibold px-3 py-1 rounded-full mb-6">
-              <Check className="w-3 h-3" />
-              Holi 30% OFF Applied – You save {country.symbol}{savings}
-            </div>
+            {couponApplied && (
+              <div className="inline-flex items-center gap-1.5 bg-green-500/10 text-green-600 dark:text-green-400 text-xs font-semibold px-3 py-1 rounded-full mb-6">
+                <Check className="w-3 h-3" />
+                {couponApplied.discount}% OFF Applied – You save {country.symbol}{savings}
+              </div>
+            )}
 
-            <ul className="space-y-3 mb-8">
+            <ul className="space-y-3 mb-8 mt-4">
               {features.map((f) => (
                 <li key={f} className="flex items-center gap-2 text-sm">
                   <Check className="w-4 h-4 text-primary flex-shrink-0" />
@@ -236,7 +302,7 @@ const PricingSection = () => {
               onClick={handlePayment}
               disabled={loading}
             >
-              {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Processing...</> : "🎁 Claim Holi Gift – Get App"}
+              {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Processing...</> : "Get Zara AI Now"}
             </Button>
           </motion.div>
         </div>

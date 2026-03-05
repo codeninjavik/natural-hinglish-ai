@@ -13,22 +13,16 @@ const PaymentSuccess = () => {
   const currency = searchParams.get("currency") || "₹";
   const originalPrice = searchParams.get("original");
   const savings = searchParams.get("savings");
-  const buyer = searchParams.get("buyer") || "";
+  const coupon = searchParams.get("coupon");
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
 
   const handleTelegramNotify = async () => {
     setSending(true);
     try {
-      const { data, error } = await supabase.functions.invoke("send-telegram", {
-        body: {
-          paymentId,
-          productName: product,
-          amount,
-          buyerInfo: buyer || "Website User",
-        },
+      await supabase.functions.invoke("send-telegram", {
+        body: { paymentId, productName: product, amount, buyerInfo: "Website User" },
       });
-      if (error) throw error;
       setSent(true);
     } catch (err) {
       console.error("Telegram notification failed:", err);
@@ -45,7 +39,6 @@ const PaymentSuccess = () => {
         transition={{ duration: 0.5 }}
         className="w-full max-w-md rounded-3xl border border-border bg-card p-8 text-center shadow-[var(--shadow-soft)]"
       >
-        {/* Success Icon */}
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -58,7 +51,7 @@ const PaymentSuccess = () => {
         <h1 className="text-2xl font-bold mb-2">Payment Successful! 🎉</h1>
         <p className="text-muted-foreground mb-6">Thank you for your purchase</p>
 
-        {/* Holi Savings Box */}
+        {/* Coupon Savings Box */}
         {savings && originalPrice && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -68,7 +61,9 @@ const PaymentSuccess = () => {
           >
             <div className="flex items-center justify-center gap-2 mb-1">
               <PartyPopper className="w-5 h-5 text-green-600 dark:text-green-400" />
-              <span className="font-semibold text-green-600 dark:text-green-400 text-sm">Holi Discount Applied!</span>
+              <span className="font-semibold text-green-600 dark:text-green-400 text-sm">
+                {coupon ? `Coupon "${coupon}" Applied!` : "Discount Applied!"}
+              </span>
             </div>
             <p className="text-xs text-muted-foreground">
               Original: <span className="line-through">{currency}{originalPrice}</span> → Paid: <span className="font-bold text-foreground">{currency}{amount}</span>
@@ -79,7 +74,6 @@ const PaymentSuccess = () => {
           </motion.div>
         )}
 
-        {/* Details */}
         <div className="space-y-4 mb-8 text-left">
           <div className="flex justify-between items-center p-3 rounded-xl bg-secondary/50">
             <span className="text-sm text-muted-foreground">Product</span>
@@ -95,14 +89,7 @@ const PaymentSuccess = () => {
           </div>
         </div>
 
-        {/* Telegram Button */}
-        <Button
-          variant="hero"
-          className="w-full rounded-full mb-4"
-          size="lg"
-          onClick={handleTelegramNotify}
-          disabled={sent || sending}
-        >
+        <Button variant="hero" className="w-full rounded-full mb-4" size="lg" onClick={handleTelegramNotify} disabled={sent || sending}>
           <Send className="w-4 h-4 mr-2" />
           {sent ? "Notification Sent ✅" : sending ? "Sending..." : "Notify Us"}
         </Button>
