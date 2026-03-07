@@ -45,8 +45,11 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        <div className="border-t border-border pt-6 text-center">
+        <div className="border-t border-border pt-6 flex items-center justify-between">
           <p className="text-xs text-muted-foreground/60">© {new Date().getFullYear()} ZARA AI. All rights reserved.</p>
+          <Link to="/admin" className="text-xs text-muted-foreground/40 hover:text-muted-foreground transition-colors">
+            Admin
+          </Link>
         </div>
       </div>
     </footer>
