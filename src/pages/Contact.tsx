@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Heart, Mail, Send, MapPin, Phone } from "lucide-react";
+import { Mail, Send, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import myraLogo from "@/assets/myra-logo.png.asset.json";
 
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -33,9 +34,8 @@ const Contact = () => {
     <div className="min-h-screen bg-background">
       <nav className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-lg border-b border-border/50">
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 font-display font-bold text-xl">
-            <Heart className="w-6 h-6 text-primary fill-primary" />
-            <span>MYRA</span>
+          <Link to="/" className="flex items-center gap-2">
+            <img src={myraLogo.url} alt="MYRA" className="h-9 w-auto opacity-95 drop-shadow-[0_0_8px_hsl(var(--primary)/0.4)]" />
           </Link>
           <Link to="/"><Button variant="outline" size="sm" className="rounded-full">Back to Home</Button></Link>
         </div>
@@ -54,8 +54,7 @@ const Contact = () => {
               <p className="text-muted-foreground">Have questions about MYRA? Want to collaborate? We're here to help!</p>
             </div>
             {[
-              { icon: Mail, label: "Email", value: "myraai.in@zohomail.in" },
-              { icon: Phone, label: "Phone", value: "+91 98765 43210" },
+              { icon: Mail, label: "Email", value: "codeninjavik@gmail.com" },
               { icon: MapPin, label: "Location", value: "India" },
             ].map((item) => (
               <div key={item.label} className="flex items-start gap-4">
