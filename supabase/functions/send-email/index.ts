@@ -35,7 +35,7 @@ serve(async (req) => {
         <p><strong>Message:</strong></p>
         <div style="background: #f5f5f5; padding: 15px; border-radius: 10px; white-space: pre-wrap;">${message}</div>
         <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;" />
-        <p style="color: #999; font-size: 12px;">Sent from ZARA AI Website</p>
+        <p style="color: #999; font-size: 12px;">Sent from MYRA AI Website</p>
       </div>
     `;
 
@@ -46,8 +46,8 @@ serve(async (req) => {
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: "ZARA AI <onboarding@resend.dev>",
-        to: ["zaraai.in@zohomail.in"],
+        from: "MYRA AI <onboarding@resend.dev>",
+        to: ["myraai.in@zohomail.in"],
         subject,
         html,
         reply_to: email,

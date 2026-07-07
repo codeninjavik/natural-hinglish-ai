@@ -35,7 +35,7 @@ const Contact = () => {
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-display font-bold text-xl">
             <Heart className="w-6 h-6 text-primary fill-primary" />
-            <span>ZARA</span>
+            <span>MYRA</span>
           </Link>
           <Link to="/"><Button variant="outline" size="sm" className="rounded-full">Back to Home</Button></Link>
         </div>
@@ -51,10 +51,10 @@ const Contact = () => {
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} className="space-y-8">
             <div>
               <h2 className="text-2xl font-semibold mb-4">Get in Touch</h2>
-              <p className="text-muted-foreground">Have questions about ZARA? Want to collaborate? We're here to help!</p>
+              <p className="text-muted-foreground">Have questions about MYRA? Want to collaborate? We're here to help!</p>
             </div>
             {[
-              { icon: Mail, label: "Email", value: "zaraai.in@zohomail.in" },
+              { icon: Mail, label: "Email", value: "myraai.in@zohomail.in" },
               { icon: Phone, label: "Phone", value: "+91 98765 43210" },
               { icon: MapPin, label: "Location", value: "India" },
             ].map((item) => (

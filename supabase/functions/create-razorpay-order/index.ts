@@ -36,7 +36,7 @@ serve(async (req) => {
         amount: amountInPaise,
         currency: currency || "INR",
         notes: {
-          product_name: product_name || "Zara AI",
+          product_name: product_name || "Myra AI",
           buyer_name: buyer_name || "",
           buyer_email: buyer_email || "",
         },

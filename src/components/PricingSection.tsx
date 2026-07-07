@@ -124,7 +124,7 @@ const PricingSection = () => {
     setLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("create-razorpay-order", {
-        body: { amount: finalPrice, currency: country.currency, product_name: "Zara AI" },
+        body: { amount: finalPrice, currency: country.currency, product_name: "Myra AI" },
       });
       if (error) throw error;
 
@@ -132,14 +132,14 @@ const PricingSection = () => {
         key: data.key_id,
         amount: data.amount,
         currency: data.currency,
-        name: "ZARA AI",
-        description: couponApplied ? `ZARA AI – ${couponApplied.discount}% OFF (${couponApplied.code})` : "ZARA AI – Android App",
+        name: "MYRA AI",
+        description: couponApplied ? `MYRA AI – ${couponApplied.discount}% OFF (${couponApplied.code})` : "MYRA AI – Android App",
         order_id: data.order_id,
         handler: async (response: any) => {
           await supabase.functions.invoke("send-telegram", {
             body: {
               paymentId: response.razorpay_payment_id,
-              productName: couponApplied ? `Zara AI (Coupon: ${couponApplied.code})` : "Zara AI",
+              productName: couponApplied ? `Myra AI (Coupon: ${couponApplied.code})` : "Myra AI",
               amount: `${country.symbol}${finalPrice}`,
               buyerInfo: `Website User (${country.name})`,
             },
@@ -147,7 +147,7 @@ const PricingSection = () => {
           const params = new URLSearchParams({
             payment_id: response.razorpay_payment_id,
             amount: String(finalPrice),
-            product: "Zara AI",
+            product: "Myra AI",
             currency: country.symbol,
           });
           if (couponApplied) {
@@ -185,7 +185,7 @@ const PricingSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Get <span className="text-primary font-logo tracking-[0.15em]">ZARA</span> Today
+            Get <span className="text-primary font-logo tracking-[0.15em]">MYRA</span> Today
           </h2>
           <p className="text-muted-foreground text-lg">One-time purchase. Lifetime access.</p>
         </motion.div>
@@ -202,7 +202,7 @@ const PricingSection = () => {
                 <Smartphone className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <h3 className="font-semibold text-lg">ZARA AI – Android App</h3>
+                <h3 className="font-semibold text-lg">MYRA AI – Android App</h3>
                 <span className="text-xs text-muted-foreground">Lifetime Access</span>
               </div>
             </div>
@@ -302,7 +302,7 @@ const PricingSection = () => {
               onClick={handlePayment}
               disabled={loading}
             >
-              {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Processing...</> : "Get Zara AI Now"}
+              {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Processing...</> : "Get Myra AI Now"}
             </Button>
           </motion.div>
         </div>

@@ -23,11 +23,11 @@ serve(async (req) => {
 
     const message = `🔔 *New Payment Received*
 
-🛍 *Product:* ${productName || "Zara AI"}
+🛍 *Product:* ${productName || "Myra AI"}
 💰 *Amount:* ₹${amount || "1599"}
 🆔 *Payment ID:* \`${paymentId || "N/A"}\`
 👤 *Buyer:* ${buyerInfo || "N/A"}
-🌐 *Website:* ZARA AI
+🌐 *Website:* MYRA AI
 📅 *Date:* ${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}`;
 
     const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
