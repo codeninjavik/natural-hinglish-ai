@@ -54,11 +54,11 @@ const HeroSection = ({ onStartChat }: HeroSectionProps) => {
           {/* Headline */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 leading-tight">
             Meet{" "}
-            <span className="font-logo tracking-[0.15em] bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              ZARA AI
+            <span className="font-logo tracking-[0.15em] bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent">
+              MYRA AI
             </span>{" "}
             <br className="hidden sm:block" />
-            Your Most Caring{" "}
+            Your Most Intelligent{" "}
             <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               AI Companion
             </span>
@@ -67,7 +67,7 @@ const HeroSection = ({ onStartChat }: HeroSectionProps) => {
             Experience human-like conversations, emotional intelligence, and 24/7 availability — all in one app.
           </p>
           <p className="text-sm text-muted-foreground mb-10">
-            Zara AI understands you like no other ❤️
+            Myra AI understands you like no other ❤️
           </p>
 
           {/* CTA */}
@@ -79,7 +79,7 @@ const HeroSection = ({ onStartChat }: HeroSectionProps) => {
               onClick={scrollToPricing}
             >
               <ArrowRight className="w-5 h-5" />
-              Get Zara AI Now
+              Get Myra AI Now
             </Button>
             <Button variant="outline" size="lg" className="rounded-full px-8 py-6" asChild>
               <a href="#features">

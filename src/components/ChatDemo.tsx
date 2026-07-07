@@ -9,7 +9,7 @@ interface Message {
   content: string;
 }
 
-const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/zara-chat`;
+const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/myra-chat`;
 
 interface ChatDemoProps {
   isOpen: boolean;
@@ -123,7 +123,7 @@ const ChatDemo = ({ isOpen, onClose }: ChatDemoProps) => {
       const errorMsg = e instanceof Error ? e.message : "";
       let friendlyMsg = "Oops… kuch gadbad ho gayi 🥺 Dobara try karo na please?";
       if (errorMsg.includes("Credits exhausted") || errorMsg.includes("402")) {
-        friendlyMsg = "ZARA abhi thodi busy hai 😴 Credits khatam ho gaye hain. Thodi der baad try karo!";
+        friendlyMsg = "MYRA abhi thodi busy hai 😴 Credits khatam ho gaye hain. Thodi der baad try karo!";
       } else if (errorMsg.includes("Rate limit") || errorMsg.includes("429")) {
         friendlyMsg = "Arre bohot fast message aa rahe hain 😅 Thoda ruko, phir try karo!";
       }
@@ -153,7 +153,7 @@ const ChatDemo = ({ isOpen, onClose }: ChatDemoProps) => {
                 Z
               </div>
               <div>
-                <h3 className="font-semibold text-sm">ZARA</h3>
+                <h3 className="font-semibold text-sm">MYRA</h3>
                 <p className="text-xs text-muted-foreground flex items-center gap-1">
                   <span className="w-2 h-2 rounded-full bg-primary inline-block" />
                   Online

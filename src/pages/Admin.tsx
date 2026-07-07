@@ -182,7 +182,7 @@ const Admin = () => {
             <div>
               <Label className="text-xs mb-1 block">Custom Code (optional)</Label>
               <Input
-                placeholder="e.g. ZARA-5415GG-JUGH"
+                placeholder="e.g. MYRA-5415GG-JUGH"
                 value={customCode}
                 onChange={(e) => setCustomCode(e.target.value.toUpperCase())}
                 className="rounded-xl font-mono text-sm"

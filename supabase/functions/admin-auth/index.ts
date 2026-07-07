@@ -36,7 +36,7 @@ Deno.serve(async (req) => {
     if (action === "generate_coupon") {
       const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
       const randomPart = (len: number) => Array.from({ length: len }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
-      const generatedCode = body.code || `ZARA-${randomPart(4)}-${randomPart(4)}`;
+      const generatedCode = body.code || `MYRA-${randomPart(4)}-${randomPart(4)}`;
 
       const { data, error } = await supabase.from("coupons").insert({
         code: generatedCode.toUpperCase(),

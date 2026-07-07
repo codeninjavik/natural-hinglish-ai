@@ -23,7 +23,7 @@ const Feedback = () => {
       const { data, error } = await supabase.functions.invoke("send-email", {
         body: {
           name: name || "Anonymous",
-          email: email || "no-reply@zaraai.com",
+          email: email || "no-reply@myraai.com",
           message: `⭐ Rating: ${rating}/5\n\n${feedback}`,
           type: "feedback",
         },
@@ -44,7 +44,7 @@ const Feedback = () => {
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-display font-bold text-xl">
             <Heart className="w-6 h-6 text-primary fill-primary" />
-            <span>ZARA</span>
+            <span>MYRA</span>
           </Link>
           <Link to="/"><Button variant="outline" size="sm" className="rounded-full">Back to Home</Button></Link>
         </div>
@@ -53,14 +53,14 @@ const Feedback = () => {
       <main className="pt-24 pb-16 container mx-auto px-6 max-w-lg">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Your <span className="text-primary">Feedback</span></h1>
-          <p className="text-muted-foreground text-lg">Help us make ZARA even better 🩷</p>
+          <p className="text-muted-foreground text-lg">Help us make MYRA even better 🩷</p>
         </motion.div>
 
         {submitted ? (
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="rounded-3xl border border-primary/20 bg-card p-10 text-center">
             <div className="text-5xl mb-4">🎉</div>
             <h3 className="text-xl font-semibold mb-2">Thank you for your feedback!</h3>
-            <p className="text-muted-foreground">ZARA appreciates it ❤️</p>
+            <p className="text-muted-foreground">MYRA appreciates it ❤️</p>
           </motion.div>
         ) : (
           <motion.form initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} onSubmit={handleSubmit} className="rounded-3xl border border-border bg-card p-8 space-y-6">
@@ -87,7 +87,7 @@ const Feedback = () => {
 
             <div>
               <label className="text-sm font-medium mb-1.5 block">Your feedback</label>
-              <textarea placeholder="Tell us what you think about ZARA..." required rows={5} value={feedback} onChange={(e) => setFeedback(e.target.value)} className="w-full bg-secondary rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/30 transition-all placeholder:text-muted-foreground resize-none" />
+              <textarea placeholder="Tell us what you think about MYRA..." required rows={5} value={feedback} onChange={(e) => setFeedback(e.target.value)} className="w-full bg-secondary rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary/30 transition-all placeholder:text-muted-foreground resize-none" />
             </div>
 
             <Button type="submit" variant="hero" className="w-full rounded-full" size="lg" disabled={rating === 0 || sending}>

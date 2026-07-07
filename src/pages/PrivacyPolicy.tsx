@@ -8,7 +8,7 @@ const PrivacyPolicy = () => (
     <nav className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-lg border-b border-border/50">
       <div className="container mx-auto px-6 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 font-display font-bold text-xl">
-          <Heart className="w-6 h-6 text-primary fill-primary" /><span>ZARA</span>
+          <Heart className="w-6 h-6 text-primary fill-primary" /><span>MYRA</span>
         </Link>
         <Link to="/"><Button variant="outline" size="sm" className="rounded-full">Back to Home</Button></Link>
       </div>
@@ -22,7 +22,7 @@ const PrivacyPolicy = () => (
           <p>We may collect the following information:</p>
           <ul className="list-disc pl-5 space-y-1">
             <li>Name and email address (when you contact us)</li>
-            <li>Chat conversations with ZARA AI (for improving experience)</li>
+            <li>Chat conversations with MYRA AI (for improving experience)</li>
             <li>Payment information (processed securely via Razorpay)</li>
             <li>Device and usage data</li>
           </ul>
@@ -38,9 +38,9 @@ const PrivacyPolicy = () => (
           <h2 className="text-lg font-semibold text-foreground">4. Third-Party Services</h2>
           <p>We use Razorpay for payments and AI services for chat functionality. These services have their own privacy policies.</p>
           <h2 className="text-lg font-semibold text-foreground">5. Your Rights</h2>
-          <p>You may request deletion of your data at any time by emailing <strong>support@zaraai.com</strong>.</p>
+          <p>You may request deletion of your data at any time by emailing <strong>support@myraai.com</strong>.</p>
           <h2 className="text-lg font-semibold text-foreground">6. Contact</h2>
-          <p>For privacy concerns, contact us at <strong>support@zaraai.com</strong>.</p>
+          <p>For privacy concerns, contact us at <strong>support@myraai.com</strong>.</p>
         </div>
       </motion.div>
     </main>

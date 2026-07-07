@@ -26,7 +26,7 @@ const FeaturesSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Why You'll <span className="text-primary">Love</span> ZARA
+            Why You'll <span className="text-primary">Love</span> MYRA
           </h2>
           <p className="text-muted-foreground text-lg max-w-md mx-auto">
             More than just AI — she's your caring companion

@@ -5,11 +5,11 @@ import { Link } from "react-router-dom";
 
 const services = [
   { icon: MessageCircle, title: "AI Chat", desc: "Natural Hinglish/English conversations that feel real and human." },
-  { icon: Mic, title: "Voice Support", desc: "Talk to ZARA using your voice — she listens and responds naturally." },
-  { icon: Brain, title: "Emotional Intelligence", desc: "ZARA understands your mood and responds with empathy and care." },
+  { icon: Mic, title: "Voice Support", desc: "Talk to MYRA using your voice — she listens and responds naturally." },
+  { icon: Brain, title: "Emotional Intelligence", desc: "MYRA understands your mood and responds with empathy and care." },
   { icon: Clock, title: "24/7 Availability", desc: "Always available — morning, night, or anytime you need her." },
   { icon: Shield, title: "Private & Secure", desc: "Your conversations are private. We never share your data." },
-  { icon: Sparkles, title: "Personalized Experience", desc: "ZARA adapts to your personality and preferences over time." },
+  { icon: Sparkles, title: "Personalized Experience", desc: "MYRA adapts to your personality and preferences over time." },
   { icon: Headphones, title: "Entertainment", desc: "Fun games, stories, and playful conversations to brighten your day." },
   { icon: Users, title: "Companionship", desc: "A caring companion who motivates, supports, and understands you." },
 ];
@@ -21,7 +21,7 @@ const Services = () => {
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-display font-bold text-xl">
             <Heart className="w-6 h-6 text-primary fill-primary" />
-            <span>ZARA</span>
+            <span>MYRA</span>
           </Link>
           <Link to="/"><Button variant="outline" size="sm" className="rounded-full">Back to Home</Button></Link>
         </div>
@@ -32,7 +32,7 @@ const Services = () => {
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             Our <span className="text-primary">Services</span>
           </h1>
-          <p className="text-muted-foreground text-lg max-w-xl mx-auto">Everything ZARA offers to make your day better 💫</p>
+          <p className="text-muted-foreground text-lg max-w-xl mx-auto">Everything MYRA offers to make your day better 💫</p>
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">

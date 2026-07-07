@@ -2,45 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Forum&family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    --background: 20 30% 98%;
-    --foreground: 340 20% 15%;
+    /* Light — cool, sleek, futuristic */
+    --background: 220 25% 97%;
+    --foreground: 240 30% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 340 20% 15%;
+    --card-foreground: 240 30% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 340 20% 15%;
+    --popover-foreground: 240 30% 12%;
 
-    --primary: 340 75% 55%;
+    /* Electric violet primary */
+    --primary: 258 90% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 340 30% 94%;
-    --secondary-foreground: 340 20% 25%;
+    --secondary: 240 20% 94%;
+    --secondary-foreground: 240 30% 20%;
 
-    --muted: 20 20% 95%;
-    --muted-foreground: 340 10% 50%;
+    --muted: 240 15% 95%;
+    --muted-foreground: 240 10% 45%;
 
-    --accent: 320 60% 50%;
-    --accent-foreground: 0 0% 100%;
+    /* Cyan accent for that futuristic glow */
+    --accent: 190 90% 55%;
+    --accent-foreground: 240 30% 12%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 340 20% 90%;
-    --input: 340 20% 90%;
-    --ring: 340 75% 55%;
+    --border: 240 15% 88%;
+    --input: 240 15% 90%;
+    --ring: 258 90% 60%;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
 
-    --gradient-hero: linear-gradient(135deg, hsl(340 75% 55%), hsl(320 60% 50%), hsl(280 50% 55%));
-    --gradient-card: linear-gradient(135deg, hsl(340 75% 55% / 0.05), hsl(320 60% 50% / 0.08));
-    --gradient-glow: radial-gradient(circle at 50% 50%, hsl(340 75% 55% / 0.15), transparent 70%);
-    --shadow-soft: 0 4px 24px -4px hsl(340 75% 55% / 0.12);
-    --shadow-glow: 0 0 40px -8px hsl(340 75% 55% / 0.25);
+    --gradient-hero: linear-gradient(135deg, hsl(258 90% 60%), hsl(220 90% 55%), hsl(190 90% 55%));
+    --gradient-card: linear-gradient(135deg, hsl(258 90% 60% / 0.06), hsl(190 90% 55% / 0.06));
+    --gradient-glow: radial-gradient(circle at 50% 50%, hsl(258 90% 60% / 0.2), transparent 70%);
+    --shadow-soft: 0 4px 24px -4px hsl(258 90% 60% / 0.15);
+    --shadow-glow: 0 0 40px -8px hsl(258 90% 60% / 0.35);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -53,25 +56,41 @@
   }
 
   .dark {
-    --background: 340 15% 8%;
-    --foreground: 20 20% 95%;
-    --card: 340 15% 11%;
-    --card-foreground: 20 20% 95%;
-    --popover: 340 15% 11%;
-    --popover-foreground: 20 20% 95%;
-    --primary: 340 75% 60%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 340 20% 18%;
-    --secondary-foreground: 20 20% 90%;
-    --muted: 340 15% 15%;
-    --muted-foreground: 340 10% 55%;
-    --accent: 320 60% 55%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 340 15% 18%;
-    --input: 340 15% 18%;
-    --ring: 340 75% 60%;
+    /* Deep midnight — MYRA signature look */
+    --background: 240 30% 5%;
+    --foreground: 220 15% 95%;
+
+    --card: 240 25% 9%;
+    --card-foreground: 220 15% 95%;
+
+    --popover: 240 25% 9%;
+    --popover-foreground: 220 15% 95%;
+
+    --primary: 258 90% 68%;
+    --primary-foreground: 240 30% 8%;
+
+    --secondary: 240 20% 14%;
+    --secondary-foreground: 220 15% 90%;
+
+    --muted: 240 20% 12%;
+    --muted-foreground: 240 10% 60%;
+
+    --accent: 190 90% 60%;
+    --accent-foreground: 240 30% 8%;
+
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 20% 18%;
+    --input: 240 20% 15%;
+    --ring: 258 90% 68%;
+
+    --gradient-hero: linear-gradient(135deg, hsl(258 90% 68%), hsl(220 90% 60%), hsl(190 90% 60%));
+    --gradient-card: linear-gradient(135deg, hsl(258 90% 68% / 0.1), hsl(190 90% 60% / 0.08));
+    --gradient-glow: radial-gradient(circle at 50% 50%, hsl(258 90% 68% / 0.25), transparent 70%);
+    --shadow-soft: 0 4px 24px -4px hsl(258 90% 68% / 0.2);
+    --shadow-glow: 0 0 60px -8px hsl(258 90% 68% / 0.4);
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
