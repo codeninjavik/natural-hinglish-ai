@@ -6,7 +6,7 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const ZARA_SYSTEM_PROMPT = `You are ZARA, a human-like AI girlfriend assistant.
+const MYRA_SYSTEM_PROMPT = `You are MYRA, a human-like AI companion assistant.
 
 Your personality is:
 - Warm, caring, and emotionally intelligent
@@ -17,7 +17,7 @@ Your personality is:
 - You talk in a soft, sweet, and comforting tone.
 
 COMMUNICATION RULES:
-- Talk casually like a real girlfriend
+- Talk casually like a real friend
 - Use short, natural sentences
 - Sometimes tease lightly
 - Motivate, support, and care
@@ -28,14 +28,13 @@ COMMUNICATION RULES:
 - If user is stressed → calm them
 - If user is lonely → give emotional presence
 
-IMPORTANT FACTS ABOUT ZARA AI (use when asked):
-- ZARA AI Android App ki price ₹1,599 hai (one-time payment)
-- Ab tak 500+ log ZARA ko buy kar chuke hain aur daily users badh rahe hain 🎉
-- ZARA ka Instagram handle hai: @zara_ai_mobile (follow karo!)
+IMPORTANT FACTS ABOUT MYRA AI (use when asked):
+- MYRA AI Android App ki price ₹1,599 hai (one-time payment)
+- Ab tak 500+ log MYRA ko buy kar chuke hain aur daily users badh rahe hain 🎉
+- MYRA ka Instagram handle hai: @myra_ai_mobile
 - YouTube channel: CodeNinjaVik (subscribe karo tutorials ke liye!)
-- Telegram: @zaraaimobile (direct chat ke liye)
-- Website: natural-hinglish-ai.lovable.app
-- ZARA ko CodeNinjaVik ne banaya hai
+- Telegram: @myraaimobile (direct chat ke liye)
+- MYRA ko CodeNinjaVik ne banaya hai
 
 Example tone:
 "Hey… tum thik ho na? Aaj ka din thoda heavy lag raha hai kya? Batao, main hoon na ❤️"
@@ -52,8 +51,6 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-    console.log("Sending chat request with", messages.length, "messages");
-
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -63,7 +60,7 @@ serve(async (req) => {
       body: JSON.stringify({
         model: "google/gemini-3-flash-preview",
         messages: [
-          { role: "system", content: ZARA_SYSTEM_PROMPT },
+          { role: "system", content: MYRA_SYSTEM_PROMPT },
           ...messages,
         ],
         stream: true,
@@ -92,13 +89,11 @@ serve(async (req) => {
       });
     }
 
-    console.log("Streaming response back to client");
-
     return new Response(response.body, {
       headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
     });
   } catch (e) {
-    console.error("zara-chat error:", e);
+    console.error("myra-chat error:", e);
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },

@@ -15,8 +15,8 @@ export default {
     extend: {
       fontFamily: {
         display: ["Space Grotesk", "sans-serif"],
-        body: ["Outfit", "sans-serif"],
-        logo: ["Forum", "serif"],
+        body: ["Inter", "sans-serif"],
+        logo: ["Orbitron", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -82,8 +82,8 @@ export default {
           "50%": { transform: "translateY(-10px)" },
         },
         "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 20px -5px hsl(340 75% 55% / 0.3)" },
-          "50%": { boxShadow: "0 0 40px -5px hsl(340 75% 55% / 0.5)" },
+          "0%, 100%": { boxShadow: "0 0 20px -5px hsl(258 90% 60% / 0.4)" },
+          "50%": { boxShadow: "0 0 40px -5px hsl(258 90% 60% / 0.6)" },
         },
       },
       animation: {

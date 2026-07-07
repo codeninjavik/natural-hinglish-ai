@@ -1,5 +1,6 @@
-import { Heart, Instagram, Youtube } from "lucide-react";
+import { Instagram, Youtube } from "lucide-react";
 import { Link } from "react-router-dom";
+import myraLogo from "@/assets/myra-logo.png.asset.json";
 
 const Footer = () => {
   return (
@@ -7,11 +8,8 @@ const Footer = () => {
       <div className="container mx-auto px-6">
         <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <Heart className="w-5 h-5 text-primary fill-primary" />
-              <span className="font-display font-bold text-lg">MYRA</span>
-            </div>
-            <p className="text-sm text-muted-foreground">Your AI companion who truly cares ❤️</p>
+            <img src={myraLogo.url} alt="MYRA" className="h-7 w-auto mb-3 dark:invert-0 invert opacity-90" />
+            <p className="text-sm text-muted-foreground">Your AI companion, redefined ✦</p>
           </div>
           <div>
             <h4 className="font-semibold text-sm mb-3">Quick Links</h4>

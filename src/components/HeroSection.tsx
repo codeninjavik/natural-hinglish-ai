@@ -54,11 +54,11 @@ const HeroSection = ({ onStartChat }: HeroSectionProps) => {
           {/* Headline */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 leading-tight">
             Meet{" "}
-            <span className="font-logo tracking-[0.15em] bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <span className="font-logo tracking-[0.15em] bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent">
               MYRA AI
             </span>{" "}
             <br className="hidden sm:block" />
-            Your Most Caring{" "}
+            Your Most Intelligent{" "}
             <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               AI Companion
             </span>
