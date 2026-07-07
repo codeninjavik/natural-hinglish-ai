@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "Anyone can read active coupons" ON public.coupons; REVOKE SELECT ON public.coupons FROM anon; REVOKE SELECT ON public.coupons FROM authenticated;
