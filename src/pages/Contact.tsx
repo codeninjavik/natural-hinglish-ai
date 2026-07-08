@@ -35,7 +35,7 @@ const Contact = () => {
       <nav className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-lg border-b border-border/50">
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <img src={myraLogo.url} alt="MYRA" className="h-9 w-auto opacity-95 drop-shadow-[0_0_8px_hsl(var(--primary)/0.4)]" />
+            <img src={myraLogo.url} alt="MYRA" className="h-9 w-auto opacity-95 invert dark:invert-0 drop-shadow-[0_0_8px_hsl(var(--primary)/0.4)]" />
           </Link>
           <Link to="/"><Button variant="outline" size="sm" className="rounded-full">Back to Home</Button></Link>
         </div>

@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="container mx-auto px-6">
         <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
           <div>
-            <img src={myraLogo.url} alt="MYRA" className="h-10 w-auto mb-3 opacity-95 drop-shadow-[0_0_8px_hsl(var(--primary)/0.4)]" />
+            <img src={myraLogo.url} alt="MYRA" className="h-10 w-auto mb-3 opacity-95 invert dark:invert-0 drop-shadow-[0_0_8px_hsl(var(--primary)/0.4)]" />
             <p className="text-sm text-muted-foreground">Your AI companion, redefined ✦</p>
           </div>
           <div>
