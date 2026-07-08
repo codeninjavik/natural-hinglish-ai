@@ -14,7 +14,7 @@ const Navbar = ({ onStartChat }: NavbarProps) => {
           <img
             src={myraLogo.url}
             alt="MYRA"
-            className="h-12 md:h-14 w-auto opacity-95 hover:opacity-100 transition-opacity drop-shadow-[0_0_8px_hsl(var(--primary)/0.4)]"
+            className="h-12 md:h-14 w-auto opacity-95 hover:opacity-100 transition-opacity invert dark:invert-0 drop-shadow-[0_0_8px_hsl(var(--primary)/0.4)]"
           />
         </a>
 
