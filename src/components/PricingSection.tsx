@@ -83,11 +83,13 @@ const features = [
 
 const PricingSection = () => {
   const [loading, setLoading] = useState(false);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState("IN");
   const [couponCode, setCouponCode] = useState("");
   const [couponApplied, setCouponApplied] = useState<{ code: string; discount: number } | null>(null);
   const [couponLoading, setCouponLoading] = useState(false);
   const { toast } = useToast();
+
 
   const country = countries.find((c) => c.code === selectedCountry)!;
   const originalPrice = country.price;
