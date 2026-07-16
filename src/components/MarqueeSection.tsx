@@ -38,8 +38,15 @@ const images = [
 
 export const MarqueeSection = () => {
   return (
-    <section className="relative w-full py-24 overflow-hidden bg-secondary/30">
-      <div className="container mx-auto px-6 text-center mb-10">
+    <section className="relative w-screen left-1/2 -translate-x-1/2 py-24 overflow-hidden bg-secondary/30 isolate">
+      {/* Marquee sits behind foreground content */}
+      <div className="absolute inset-0 -z-10 pointer-events-none opacity-70">
+        <ThreeDMarquee images={images} />
+      </div>
+      {/* Soft overlay to keep foreground readable */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background/60 via-background/30 to-background/80" />
+
+      <div className="relative z-10 container mx-auto px-6 text-center">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -50,7 +57,6 @@ export const MarqueeSection = () => {
         </motion.h2>
         <p className="text-muted-foreground text-lg">Immersive experiences, powered by AI.</p>
       </div>
-      <ThreeDMarquee images={images} />
     </section>
   );
 };
