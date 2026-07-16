@@ -310,7 +310,7 @@ const PricingSection = () => {
                 variant="ghost"
                 className="w-full rounded-full text-white hover:bg-white/10 hover:text-white font-semibold"
                 size="lg"
-                onClick={handlePayment}
+                onClick={() => setCheckoutOpen(true)}
                 disabled={loading}
               >
                 {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Processing...</> : "Get Myra AI Now →"}
@@ -319,8 +319,24 @@ const PricingSection = () => {
           </motion.div>
         </div>
       </div>
+
+      <CheckoutModal
+        open={checkoutOpen}
+        onClose={() => setCheckoutOpen(false)}
+        onConfirm={handlePayment}
+        loading={loading}
+        productName="MYRA AI – Android App"
+        countryName={country.name}
+        currencySymbol={country.symbol}
+        originalPrice={originalPrice}
+        finalPrice={finalPrice}
+        couponCode={couponApplied?.code ?? null}
+        couponDiscount={couponApplied?.discount ?? null}
+        savings={savings}
+      />
     </section>
   );
 };
+
 
 export default PricingSection;
