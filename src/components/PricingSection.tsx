@@ -166,7 +166,11 @@ const PricingSection = () => {
       };
 
       const rzp = new (window as any).Razorpay(options);
+      rzp.on?.("payment.failed", () => {
+        toast({ title: "Payment failed", description: "Please try again or use a different method.", variant: "destructive" });
+      });
       rzp.open();
+      setCheckoutOpen(false);
     } catch (err) {
       console.error("Payment error:", err);
       toast({ title: "Error", description: "Payment initialization failed. Please try again.", variant: "destructive" });
@@ -174,6 +178,7 @@ const PricingSection = () => {
       setLoading(false);
     }
   };
+
 
   return (
     <section id="pricing" className="py-24 relative">
