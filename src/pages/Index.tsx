@@ -8,6 +8,8 @@ import PricingSection from "@/components/PricingSection";
 import ChatDemo from "@/components/ChatDemo";
 import Footer from "@/components/Footer";
 import PartnerSection from "@/components/PartnerSection";
+import MarqueeSection from "@/components/MarqueeSection";
+import MacbookSection from "@/components/MacbookSection";
 
 const Index = () => {
   const [chatOpen, setChatOpen] = useState(false);
@@ -17,6 +19,8 @@ const Index = () => {
       <Navbar onStartChat={() => setChatOpen(true)} />
       <HeroSection onStartChat={() => setChatOpen(true)} />
       <FeaturesSection />
+      <MacbookSection />
+      <MarqueeSection />
       <PricingSection />
       <PartnerSection />
       <Footer />
