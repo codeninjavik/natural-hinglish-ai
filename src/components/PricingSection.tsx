@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { NoiseBackground } from "@/components/ui/noise-background";
 import {
   Select,
   SelectContent,
@@ -295,15 +296,17 @@ const PricingSection = () => {
               ))}
             </ul>
 
-            <Button
-              variant="hero"
-              className="w-full rounded-full"
-              size="lg"
-              onClick={handlePayment}
-              disabled={loading}
-            >
-              {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Processing...</> : "Get Myra AI Now"}
-            </Button>
+            <NoiseBackground className="w-full">
+              <Button
+                variant="ghost"
+                className="w-full rounded-full text-white hover:bg-white/10 hover:text-white font-semibold"
+                size="lg"
+                onClick={handlePayment}
+                disabled={loading}
+              >
+                {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Processing...</> : "Get Myra AI Now →"}
+              </Button>
+            </NoiseBackground>
           </motion.div>
         </div>
       </div>
