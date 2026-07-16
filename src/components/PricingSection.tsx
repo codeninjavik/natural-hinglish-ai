@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { NoiseBackground } from "@/components/ui/noise-background";
+import CheckoutModal from "@/components/CheckoutModal";
 import {
   Select,
   SelectContent,
@@ -13,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 
 const countries = [
   { code: "IN", name: "India", currency: "INR", symbol: "₹", price: 1599 },
