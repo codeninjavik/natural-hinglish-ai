@@ -1,7 +1,8 @@
 "use client";
 import { useRef, ReactNode } from "react";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { motion, useScroll, useTransform, useSpring, MotionValue } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface MacbookScrollProps {
   src?: string;
@@ -12,23 +13,37 @@ interface MacbookScrollProps {
 
 export const MacbookScroll = ({ src, title, badge, showGradient }: MacbookScrollProps) => {
   const ref = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
+  const { reduced } = useReducedMotion();
+  const disableScrollAnim = isMobile || reduced;
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
 
-  const scaleX = useTransform(scrollYProgress, [0, 0.3], [1.2, 1.5]);
-  const scaleY = useTransform(scrollYProgress, [0, 0.3], [0.6, 1.5]);
-  const translate = useTransform(scrollYProgress, [0, 1], [0, 1500]);
-  const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
-  const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  // Smoother scroll with spring damping to reduce jank
+  const smooth = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
+
+  const scaleX = useTransform(smooth, [0, 0.3], disableScrollAnim ? [1.5, 1.5] : [1.2, 1.5]);
+  const scaleY = useTransform(smooth, [0, 0.3], disableScrollAnim ? [1.5, 1.5] : [0.6, 1.5]);
+  const translate = useTransform(smooth, [0, 1], disableScrollAnim ? [0, 0] : [0, 1500]);
+  const rotate = useTransform(smooth, [0.1, 0.12, 0.3], disableScrollAnim ? [0, 0, 0] : [-28, -28, 0]);
+  const textTransform = useTransform(smooth, [0, 0.3], disableScrollAnim ? [0, 0] : [0, 100]);
+  const textOpacity = useTransform(smooth, [0, 0.2], disableScrollAnim ? [1, 1] : [1, 0]);
 
   return (
     <div
       ref={ref}
-      className="min-h-[200vh] flex flex-col items-center py-20 md:py-40 justify-start flex-shrink-0 [perspective:800px] transform md:scale-100 scale-[0.6]"
+      className={
+        "flex flex-col items-center justify-start flex-shrink-0 [perspective:800px] transform " +
+        (disableScrollAnim
+          ? "min-h-0 py-12 scale-[0.55] sm:scale-75"
+          : "min-h-[200vh] py-20 md:py-40 md:scale-100 scale-[0.6]")
+      }
+      style={{ willChange: disableScrollAnim ? "auto" : "transform" }}
     >
+
       <motion.h2
         style={{ translateY: textTransform, opacity: textOpacity }}
         className="text-3xl md:text-5xl font-bold mb-20 text-center bg-clip-text text-transparent bg-gradient-to-b from-foreground to-muted-foreground"
