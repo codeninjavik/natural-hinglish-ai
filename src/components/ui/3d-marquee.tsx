@@ -16,9 +16,10 @@ export const ThreeDMarquee = ({
   );
 
   return (
-    <div className={cn("mx-auto block h-[600px] overflow-hidden rounded-2xl", className)}>
+    <div className={cn("relative block w-screen left-1/2 -translate-x-1/2 h-[600px] overflow-hidden", className)}>
       <div className="flex size-full items-center justify-center">
-        <div className="size-[1720px] shrink-0 scale-50 sm:scale-75 lg:scale-100">
+        <div className="w-[1720px] h-[1720px] shrink-0 scale-[0.4] sm:scale-75 lg:scale-100">
+
           <div
             style={{
               transform: "rotateX(55deg) rotateY(0deg) rotateZ(-45deg)",
