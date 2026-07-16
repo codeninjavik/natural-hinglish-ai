@@ -47,10 +47,13 @@ export const ThreeDMarquee = ({
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                       src={image}
                       alt={`Image ${imageIndex + 1}`}
+                      loading="lazy"
+                      decoding="async"
                       className="aspect-[970/700] rounded-lg object-cover ring ring-primary/20 hover:shadow-2xl"
                       width={970}
                       height={700}
                     />
+
                   </div>
                 ))}
               </motion.div>
